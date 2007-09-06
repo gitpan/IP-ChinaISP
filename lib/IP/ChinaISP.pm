@@ -4,7 +4,7 @@ use strict;
 use Socket qw/inet_aton/;
 use Carp qw/croak/;
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 sub new {
 
@@ -17,7 +17,7 @@ sub new {
 
     open IPDB,"$module_dir/cnip.dat" or croak "Can't open ip database file: $!";
     while (<IPDB>) {
-        if (/^#\s*(.+)$/) {
+        if (/^#\s*(data version.+)$/) {
             $data_version = $1;
             next;
         }
@@ -67,11 +67,11 @@ sub data_version {
 
 =head1 NAME
 
-IP::ChinaISP - Querying China ISP from a given IP
+IP::ChinaISP - Retrieve an ISP in China from the given IP
 
 =head1 VERSION
 
-Version 0.01
+Version 0.02
 
 =cut
 
@@ -90,22 +90,47 @@ Version 0.01
 
 =head2 new()
 
-    New an object.
+Create a new object. 
+
+Once an object has been created, you should always keep and use this 
+same object throughout your program. Because when new() is invoked, 
+the IP-ISP data is tied to the object and is somewhat expensive. 
+If you run this module in a web environment, maybe mod_perl is a 
+better choice since mod_perl always try to keep the object persistent 
+in memory. 
 
 =head2 ip_isp(ip)
 
-    Get China ISP from the given IP.
+Retrieve an ISP in China from the given IP.
 
-    the results returned are like:
-        CNCGROUP-JL: CNCGROUP Jilin Province
-        CHINANET-GD: CHINANET Guangdong Province
-        JLU-CN: Jilin University China
+The results returned are similar to: 
+
+        CNCGROUP-JL
+
+        - CNCGROUP Jilin Province 
+
+        CHINANET-GD
+
+        - CHINANET Guangdong Province 
+
+        UNICOM
+
+        - China United Telecommunications 
+
+        JLU-CN
+
+        - Jilin University China
+
         ...
-        unknown: This IP is not in our database,maybe non-China IP?
+
+        unknown
+
+        - This IP is not in our database, maybe non-China IP? 
+
 
 =head2 data_version()
 
-    Get IP-ISP data's version and update date.
+Retrieve the IP-ISP data version and updated date.
 
 =cut
 
@@ -128,7 +153,15 @@ You can find documentation for this module with the perldoc command.
 
 =head1 ACKNOWLEDGMENTS
 
-    Many thanks to Derek Smith <derekbellnersmith@yahoo.com> who documented this module.
+In China there are two primary ISPs, China Telecom (CHINANET) and China
+CNC Group (CNCGROUP). The internet connection between these two ISPs is 
+very slow and therefore causes trouble for those web service providers. 
+They need to make two suites of systems for the same application, each 
+for each ISP. Moreover, they need to make CDN systems based on different 
+provinces in China. So the module will provide a convenient way for 
+their purpose.
+
+Many thanks to Derek Smith <derekbellnersmith@yahoo.com> who documented this module.
 
 =head1 COPYRIGHT & LICENSE
 

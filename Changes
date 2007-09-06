@@ -2,3 +2,6 @@ Revision history for IP-ChinaISP
 
 0.01    2007/9/3
         First version, wrote and tested on RH Linux AS4,with Perl 5.8.5
+
+0.02	2007/9/6
+	Updated POD section
