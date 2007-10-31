@@ -4,7 +4,7 @@ use strict;
 use Socket qw/inet_aton/;
 use Carp qw/croak/;
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 sub new {
 
@@ -17,7 +17,7 @@ sub new {
 
     open IPDB,"$module_dir/cnip.dat" or croak "Can't open ip database file: $!";
     while (<IPDB>) {
-        if (/^#\s*(data version.+)$/) {
+        if (/^#\s*(data updated.+)$/) {
             $data_version = $1;
             next;
         }
@@ -71,7 +71,7 @@ IP::ChinaISP - Retrieve an ISP in China from the given IP
 
 =head1 VERSION
 
-Version 0.02
+Version 0.03
 
 =cut
 
@@ -137,13 +137,13 @@ Retrieve the IP-ISP data version and updated date.
 
 =head1 AUTHOR
 
-Jeff Pang <rwwebs@gmail.com>
+Jeff Pang <pangj@earthlink.net>
 
 =head1 BUGS/LIMITATIONS
 
 Only works with IPv4 addresses.
 
-If you have found bugs,please send mail to <rwwebs@gmail.com>
+If you have found bugs,please send mail to <pangj@earthlink.net>
 
 =head1 SUPPORT
 

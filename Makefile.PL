@@ -4,7 +4,7 @@ use ExtUtils::MakeMaker;
 
 WriteMakefile(
     NAME                => 'IP::ChinaISP',
-    AUTHOR              => 'Jeff Pang <rwwebs@gmail.com>',
+    AUTHOR              => 'Jeff Pang <pangj@earthlink.net>',
     VERSION_FROM        => 'lib/IP/ChinaISP.pm',
     ABSTRACT_FROM       => 'lib/IP/ChinaISP.pm',
     PL_FILES            => {},
