@@ -6,7 +6,7 @@ use Carp qw/croak/;
 
 use vars qw/$VERSION/;
 
-$VERSION = '0.04';
+$VERSION = '0.05';
 
 sub new {
 
@@ -138,7 +138,7 @@ IP::ChinaISP - Retrieve an ISP in China from the given IP
 
 =head1 VERSION
 
-Version 0.04
+Version 0.05
 
 =cut
 
@@ -208,34 +208,22 @@ The results returned are similar to:
 
 =head2 is_tel(ip)
 
-Whether the given IP belongs to China Telecom or not.
+Whether the given IP belongs to China Telecom or not (the returned
+result 1 for yes, 0 for no).
 
 Note: This method and below two are used for reference only.
-
-The returned results are:
-
-        1 - yes
-        0 - no
 
 
 =head2 is_cnc(ip)
 
-Whether the given IP belongs to China CNC Group or not.
-
-The returned results are:
-
-        1 - yes
-        0 - no
+Whether the given IP belongs to China CNC Group or not (the returned
+result 1 for yes, 0 for no).
 
 
 =head2 is_edu(ip)
 
-Whether the given IP belongs to China education networks or not.
-
-The returned results are:
-
-        1 - yes
-        0 - no
+Whether the given IP belongs to China education networks or not (the
+returned result 1 for yes, 0 for no).
 
 
 =head2 data_version()
