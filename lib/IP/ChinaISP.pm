@@ -4,7 +4,9 @@ use strict;
 use Socket qw/inet_aton/;
 use Carp qw/croak/;
 
-our $VERSION = '0.03';
+use vars qw/$VERSION/;
+
+$VERSION = '0.04';
 
 sub new {
 
@@ -36,10 +38,7 @@ sub ip_isp {
     $self = $self->new unless ref $self;
     my $ip = shift;
 
-    my $nl = inet_aton($ip);
-    croak "wrong ip $ip" unless defined $nl;
-
-    my $ipint = unpack('N',$nl);
+    my $ipint = _ip2int($ip);
 
     my $isp = 'unknown';
     for (@{$self->{ips}}) {
@@ -52,6 +51,66 @@ sub ip_isp {
     return $isp;
 }
 
+sub is_tel {
+
+    my $self = shift;
+    $self = $self->new unless ref $self;
+    my $ip = shift;
+
+    my $ipint = _ip2int($ip);
+    my $is_tel = 0;
+
+    for (@{$self->{ips}}) {
+        if ($ipint >= $_->[0] and $ipint <= $_->[1] and 
+            $_->[2] =~ /CHINANET|telecom/i ) {
+            $is_tel =1;
+            last;
+        }
+    }
+
+    return $is_tel;
+}
+
+sub is_cnc {
+
+    my $self = shift;
+    $self = $self->new unless ref $self;
+    my $ip = shift;
+
+    my $ipint = _ip2int($ip);
+    my $is_cnc = 0;
+
+    for (@{$self->{ips}}) {
+        if ($ipint >= $_->[0] and $ipint <= $_->[1] and 
+            $_->[2] =~ /CNC|wangtong/) {  # I didn't use '/i' modifier here
+            $is_cnc =1;
+            last;
+        }
+    }
+
+    return $is_cnc;
+}
+
+sub is_edu {
+
+    my $self = shift;
+    $self = $self->new unless ref $self;
+    my $ip = shift;
+
+    my $ipint = _ip2int($ip);
+    my $is_edu = 0;
+
+    for (@{$self->{ips}}) {
+        if ($ipint >= $_->[0] and $ipint <= $_->[1] and 
+            $_->[2] =~ /UT?-CN|CERNET|university|school/i and $_->[2] !~ /GUANGZ/) {
+            $is_edu =1;
+            last;
+        }
+    }
+
+    return $is_edu;
+}
+
 sub data_version {
     
     my $self = shift;
@@ -60,6 +119,14 @@ sub data_version {
     return $self->{dv};
 }
 
+sub _ip2int {
+
+    my $ip = shift;
+    my $nl = inet_aton($ip);
+    croak "wrong ip $!" unless defined $nl;
+
+    return unpack('N',$nl);
+}
 
 1;
 
@@ -71,7 +138,7 @@ IP::ChinaISP - Retrieve an ISP in China from the given IP
 
 =head1 VERSION
 
-Version 0.03
+Version 0.04
 
 =cut
 
@@ -80,9 +147,20 @@ Version 0.03
 
     use IP::ChinaISP;
 
+    my $ip = '202.96.128.86';
     my $cnisp = IP::ChinaISP->new;
-    my $isp = $cnisp->ip_isp('202.96.128.86');
-    print $isp;
+
+    my $isp = $cnisp->ip_isp($ip);
+    print "the isp for ip $ip is:", $isp;
+
+    my $is_tel = $cnisp->is_tel($ip);
+    print "the ip $ip is ", $is_tel ? '' : 'not ', 'a telecom ip';
+
+    my $is_cnc = $cnisp->is_cnc($ip);
+    print "the ip $ip is ", $is_cnc ? '' : 'not ', 'a CNC ip';
+
+    my $is_edu = $cnisp->is_edu($ip);
+    print "the ip $ip is ", $is_edu ? '' : 'not ', 'an education-net ip';
 
     print $cnisp->data_version;
 
@@ -126,6 +204,38 @@ The results returned are similar to:
         unknown
 
         - This IP is not in our database, maybe non-China IP? 
+
+
+=head2 is_tel(ip)
+
+Whether the given IP belongs to China Telecom or not.
+
+Note: This method and below two are used for reference only.
+
+The returned results are:
+
+        1 - yes
+        0 - no
+
+
+=head2 is_cnc(ip)
+
+Whether the given IP belongs to China CNC Group or not.
+
+The returned results are:
+
+        1 - yes
+        0 - no
+
+
+=head2 is_edu(ip)
+
+Whether the given IP belongs to China education networks or not.
+
+The returned results are:
+
+        1 - yes
+        0 - no
 
 
 =head2 data_version()
