@@ -11,3 +11,6 @@ Revision history for IP-ChinaISP
 
 0.04	2007/12/17
         Updated ip data and added three methods: is_tel,is_cnc,is_edu
+
+0.06	2008/4/12
+        Updated ip data

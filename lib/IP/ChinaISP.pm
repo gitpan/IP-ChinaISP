@@ -6,7 +6,7 @@ use Carp qw/croak/;
 
 use vars qw/$VERSION/;
 
-$VERSION = '0.05';
+$VERSION = '0.06';
 
 sub new {
 
@@ -138,7 +138,7 @@ IP::ChinaISP - Retrieve an ISP in China from the given IP
 
 =head1 VERSION
 
-Version 0.05
+Version 0.06
 
 =cut
 
