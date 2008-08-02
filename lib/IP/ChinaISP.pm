@@ -6,7 +6,7 @@ use Carp qw/croak/;
 
 use vars qw/$VERSION/;
 
-$VERSION = '0.06';
+$VERSION = '0.07';
 
 sub new {
 
@@ -138,7 +138,7 @@ IP::ChinaISP - Retrieve an ISP in China from the given IP
 
 =head1 VERSION
 
-Version 0.06
+Version 0.07
 
 =cut
 
@@ -235,13 +235,13 @@ Retrieve the IP-ISP data version and updated date.
 
 =head1 AUTHOR
 
-Jeff Pang <pangj@earthlink.net>
+Jeff Pang <JeffHua@aol.com>
 
 =head1 BUGS/LIMITATIONS
 
 Only works with IPv4 addresses.
 
-If you have found bugs,please send mail to <pangj@earthlink.net>
+If you have found bugs,please send mail to <JeffHua@aol.com>
 
 =head1 SUPPORT
 
